@@ -32,12 +32,17 @@ func loadPage(title string) (*Page, error) {
 // Page server/viewer loads page and defines display of it
 func viewPage(response http.ResponseWriter, request *http.Request) {
 	title := request.URL.Path[len("/"):]
-	page, _ := loadPage(title)
+	page, err := loadPage(title)
+	if err != nil {
+		http.Error(response, err.Error(), http.StatusInternalServerError)
+		return
+	}
 	fmt.Fprintf(response, "<div><h1>%s</h1></div><div><p>%s</p></div>", page.Title, page.Body)
 }
 
 // Entry into program
 func main() {
+	log.Println("Listening at 'localhost:9090/'")
 	http.HandleFunc("/", viewPage)
 	log.Fatal(http.ListenAndServe(":9090", nil))
 }
