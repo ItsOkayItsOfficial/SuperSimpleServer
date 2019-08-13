@@ -38,6 +38,6 @@ func viewPage(response http.ResponseWriter, request *http.Request) {
 
 // Entry into program
 func supersimpleserver() {
-	http.HandleFunc("/", loadPage)
+	http.HandleFunc("/", viewPage)
 	log.Fatal(http.ListenAndServe(":9090", nil))
 }
