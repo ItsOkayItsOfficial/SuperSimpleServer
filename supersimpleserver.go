@@ -1,4 +1,4 @@
-package supersimpleserver
+package main
 
 import (
 	"fmt"
@@ -21,7 +21,7 @@ func (page *Page) save() error {
 
 // Page loader finds and reads requested page into memory
 func loadPage(title string) (*Page, error) {
-	filename := title + "*"
+	filename := title + ".txt"
 	body, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
@@ -37,7 +37,7 @@ func viewPage(response http.ResponseWriter, request *http.Request) {
 }
 
 // Entry into program
-func supersimpleserver() {
+func main() {
 	http.HandleFunc("/", viewPage)
 	log.Fatal(http.ListenAndServe(":9090", nil))
 }
