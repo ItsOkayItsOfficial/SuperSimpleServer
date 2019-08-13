@@ -1,6 +1,7 @@
 package supersimpleserver
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -29,6 +30,11 @@ func loadPage(title string) (*Page, error) {
 }
 
 // Page server/viewer loads page and defines display of it
+func viewPage(response http.ResponseWriter, request *http.Request) {
+	title := request.URL.Path[len("/"):]
+	page, _ := loadPage(title)
+	fmt.Fprintf(response, "<div><h1>%s</h1></div><div><p>%s</p></div>", page.Title, page.Body)
+}
 
 // Entry into program
 func supersimpleserver() {
